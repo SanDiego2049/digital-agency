@@ -21,6 +21,8 @@ const Services = () => {
   const cardsRef = useRef([]);
   const scrollContainerRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [visibleCardCount, setVisibleCardCount] = useState(1);
+  const cardWidthRef = useRef(0); // store measured card width + gap
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -77,6 +79,26 @@ const Services = () => {
     return () => ctx.revert();
   }, []);
 
+  // Measure card width + gap & visible card count dynamically
+  useEffect(() => {
+    const updateMeasurements = () => {
+      if (cardsRef.current[0] && scrollContainerRef.current) {
+        const cardWidth = cardsRef.current[0].offsetWidth;
+        const gap = 24; // gap between cards in px, update if needed
+        cardWidthRef.current = cardWidth + gap;
+
+        const containerWidth = scrollContainerRef.current.offsetWidth;
+        const count = Math.floor(containerWidth / cardWidthRef.current) || 1;
+        setVisibleCardCount(count);
+      }
+    };
+
+    updateMeasurements();
+    window.addEventListener("resize", updateMeasurements);
+
+    return () => window.removeEventListener("resize", updateMeasurements);
+  }, []);
+
   const services = [
     {
       id: 1,
@@ -130,11 +152,10 @@ const Services = () => {
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
-      const cardWidth = 400; // Approximate card width + gap
       const newIndex = Math.max(0, currentIndex - 1);
       setCurrentIndex(newIndex);
       scrollContainerRef.current.scrollTo({
-        left: newIndex * cardWidth,
+        left: newIndex * cardWidthRef.current,
         behavior: "smooth",
       });
     }
@@ -142,12 +163,11 @@ const Services = () => {
 
   const scrollRight = () => {
     if (scrollContainerRef.current) {
-      const cardWidth = 400; // Approximate card width + gap
-      const maxIndex = Math.max(0, services.length - 3); // Show 3 cards at a time
+      const maxIndex = Math.max(0, services.length - visibleCardCount);
       const newIndex = Math.min(maxIndex, currentIndex + 1);
       setCurrentIndex(newIndex);
       scrollContainerRef.current.scrollTo({
-        left: newIndex * cardWidth,
+        left: newIndex * cardWidthRef.current,
         behavior: "smooth",
       });
     }
@@ -155,9 +175,8 @@ const Services = () => {
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
-      const cardWidth = 400;
       const scrollLeft = scrollContainerRef.current.scrollLeft;
-      const newIndex = Math.round(scrollLeft / cardWidth);
+      const newIndex = Math.round(scrollLeft / cardWidthRef.current);
       setCurrentIndex(newIndex);
     }
   };
@@ -187,7 +206,7 @@ const Services = () => {
             </button>
             <button
               onClick={scrollRight}
-              disabled={currentIndex >= services.length - 3}
+              disabled={currentIndex >= services.length - visibleCardCount}
               className="flex items-center justify-center w-8 h-8 bg-[#AAD468] rounded-full disabled:text-[#AAD468] text-[#0A1A1A] hover:bg-[#9BC859] transition-all duration-300 disabled:opacity-50 disabled:bg-transparent disabled:border-2 disabled:border-[#AAD468] disabled:cursor-not-allowed group"
             >
               <ChevronRight
@@ -216,7 +235,7 @@ const Services = () => {
                 className="group flex-shrink-0 snap-center"
               >
                 <div
-                  className={`relative overflow-hidden rounded-3xl w-90 h-72 bg-gradient-to-br ${service.gradient} transform transition-all duration-500  p-8`}
+                  className={`relative overflow-hidden rounded-3xl w-72 h-92 sm:w-90 sm:h-72 bg-gradient-to-br ${service.gradient} transform transition-all duration-500 p-8`}
                 >
                   {/* Icon */}
                   <div className="absolute top-6 right-6 bg-[#0A1A1A] rounded-full p-3 text-[#AAD468] group-hover:rotate-12 transition-transform duration-300">
@@ -226,7 +245,7 @@ const Services = () => {
                   {/* Content */}
                   <div className="flex text-wrap flex-col justify-between h-full">
                     <div>
-                      <h3 className="text-2xl font-bold text-[#0A1A1A] mb-4 pr-8 leading-tight">
+                      <h3 className="sm:text-2xl text-xl font-bold text-[#0A1A1A] mb-4 pr-8 leading-tight">
                         {service.title}
                       </h3>
                       <p className="text-[#0A1A1A] text-sm leading-relaxed opacity-90">
@@ -265,7 +284,7 @@ const Services = () => {
                   setCurrentIndex(index);
                   if (scrollContainerRef.current) {
                     scrollContainerRef.current.scrollTo({
-                      left: index * 400,
+                      left: index * cardWidthRef.current,
                       behavior: "smooth",
                     });
                   }
@@ -276,7 +295,7 @@ const Services = () => {
 
           <button
             onClick={scrollRight}
-            disabled={currentIndex >= services.length - 1}
+            disabled={currentIndex >= services.length - visibleCardCount}
             className="flex items-center justify-center w-10 h-10 bg-[#AAD468] rounded-full text-[#0A1A1A] hover:bg-[#9BC859] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <ChevronRight size={20} />

@@ -18,7 +18,6 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import icon from "../assets/Layer_x0020_1.png";
 
-// Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
 const ContactUs = () => {
@@ -87,16 +86,11 @@ const ContactUs = () => {
     },
   ];
 
-  // GSAP Animations
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Hero section animation
       gsap.fromTo(
         heroRef.current,
-        {
-          opacity: 0,
-          y: 50,
-        },
+        { opacity: 0, y: 50 },
         {
           opacity: 1,
           y: 0,
@@ -111,13 +105,9 @@ const ContactUs = () => {
         }
       );
 
-      // Form animation
       gsap.fromTo(
         formRef.current,
-        {
-          opacity: 0,
-          x: -50,
-        },
+        { opacity: 0, x: -50 },
         {
           opacity: 1,
           x: 0,
@@ -133,13 +123,9 @@ const ContactUs = () => {
         }
       );
 
-      // Contact info animation
       gsap.fromTo(
         contactInfoRef.current,
-        {
-          opacity: 0,
-          x: 50,
-        },
+        { opacity: 0, x: 50 },
         {
           opacity: 1,
           x: 0,
@@ -177,7 +163,6 @@ const ContactUs = () => {
     setIsSubmitting(true);
     setSubmitStatus(null);
 
-    // Simulate form submission
     try {
       await new Promise((resolve) => setTimeout(resolve, 2000));
       setSubmitStatus("success");
@@ -190,7 +175,7 @@ const ContactUs = () => {
         message: "",
         isNotRobot: false,
       });
-    } catch (error) {
+    } catch {
       setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
@@ -232,241 +217,169 @@ const ContactUs = () => {
           </p>
         </div>
 
-        {/* Main Content */}
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
+        {/* Responsive Form + Info Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
           {/* Contact Form */}
-          <div ref={formRef} className="space-y-6">
-            <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10">
-              <h2 className="text-2xl font-bold text-white mb-6">
+          <div ref={formRef} className="space-y-6 min-w-0">
+            <form
+              onSubmit={handleSubmit}
+              className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 space-y-6"
+            >
+              <h2 className="text-2xl font-bold text-white">
                 Send us a message
               </h2>
 
-              <div className="space-y-6">
-                {/* Name and Email Row */}
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="relative">
-                    <User
-                      className="absolute left-4 top-5 text-[#AAD468] z-10"
-                      size={20}
-                    />
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      placeholder="Name"
-                      required
-                      className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/20 rounded-xl text-white placeholder-white/60 focus:border-[#AAD468] focus:outline-none focus:ring-2 focus:ring-[#AAD468]/20 transition-all duration-300"
-                    />
-                  </div>
-
-                  <div className="relative">
-                    <Mail
-                      className="absolute left-4 top-5 text-[#AAD468] z-10"
-                      size={20}
-                    />
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      placeholder="Email"
-                      required
-                      className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/20 rounded-xl text-white placeholder-white/60 focus:border-[#AAD468] focus:outline-none focus:ring-2 focus:ring-[#AAD468]/20 transition-all duration-300"
-                    />
-                  </div>
-                </div>
-
-                {/* Phone Number */}
-                <div className="relative">
-                  <Phone
-                    className="absolute left-4 top-5 text-[#AAD468] z-10"
-                    size={20}
-                  />
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    placeholder="Phone Number"
-                    className="w-full pl-12 pr-20 py-4 bg-white/5 border border-white/20 rounded-xl text-white placeholder-white/60 focus:border-[#AAD468] focus:outline-none focus:ring-2 focus:ring-[#AAD468]/20 transition-all duration-300"
-                  />
-                  <span className="absolute right-4 top-5 text-white/40 text-sm">
-                    (Optional)
-                  </span>
-                </div>
-
-                {/* Company Name */}
-                <div className="relative">
-                  <Building2
-                    className="absolute left-4 top-5 text-[#AAD468] z-10"
-                    size={20}
-                  />
-                  <input
-                    type="text"
-                    name="company"
-                    value={formData.company}
-                    onChange={handleInputChange}
-                    placeholder="Company Name"
-                    className="w-full pl-12 pr-20 py-4 bg-white/5 border border-white/20 rounded-xl text-white placeholder-white/60 focus:border-[#AAD468] focus:outline-none focus:ring-2 focus:ring-[#AAD468]/20 transition-all duration-300"
-                  />
-                  <span className="absolute right-4 top-5 text-white/40 text-sm">
-                    (Optional)
-                  </span>
-                </div>
-
-                {/* Subject Dropdown */}
-                <div className="relative">
-                  <MessageSquare
-                    className="absolute left-4 top-5 text-[#AAD468] z-10"
-                    size={20}
-                  />
-                  <div className="relative">
-                    <button
-                      type="button"
-                      onClick={() => setIsSubjectOpen(!isSubjectOpen)}
-                      className="w-full pl-12 pr-12 py-4 bg-white/5 border border-white/20 rounded-xl text-white text-left focus:border-[#AAD468] focus:outline-none focus:ring-2 focus:ring-[#AAD468]/20 transition-all duration-300"
-                    >
-                      {formData.subject || "Select Subject"}
-                    </button>
-                    <ChevronDown
-                      className={`absolute right-4 top-5 text-white/60 transition-transform duration-300 ${
-                        isSubjectOpen ? "rotate-180" : ""
-                      }`}
-                      size={20}
-                    />
-
-                    {isSubjectOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-2 bg-[#1A2A2A] border border-white/20 rounded-xl overflow-hidden z-20">
-                        {subjectOptions.map((option) => (
-                          <button
-                            key={option}
-                            type="button"
-                            onClick={() => handleSubjectSelect(option)}
-                            className="w-full px-4 py-3 text-left text-white hover:bg-[#AAD468] hover:text-[#0A1A1A] transition-colors duration-200"
-                          >
-                            {option}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Message */}
-                <div className="relative">
-                  <MessageSquare
-                    className="absolute left-4 top-5 text-[#AAD468] z-10"
-                    size={20}
-                  />
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    placeholder="Your Message"
-                    rows={5}
-                    required
-                    className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/20 rounded-xl text-white placeholder-white/60 focus:border-[#AAD468] focus:outline-none focus:ring-2 focus:ring-[#AAD468]/20 transition-all duration-300 resize-none"
-                  />
-                </div>
-
-                {/* Robot Check */}
-                <div className="flex items-center space-x-3">
-                  <input
-                    type="checkbox"
-                    name="isNotRobot"
-                    id="isNotRobot"
-                    checked={formData.isNotRobot}
-                    onChange={handleInputChange}
-                    className="w-5 h-5 text-[#AAD468] bg-white/5 border-white/20 rounded focus:ring-[#AAD468] focus:ring-2"
-                  />
-                  <label htmlFor="isNotRobot" className="text-white/80 text-sm">
-                    I'm not a robot{" "}
-                    <span className="text-white/40">(Optional)</span>
-                  </label>
-                </div>
-
-                {/* Submit Button */}
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-[#AAD468] to-[#9BC859] text-[#0A1A1A] py-4 px-6 rounded-xl font-semibold text-lg flex items-center justify-center space-x-2 hover:from-[#9BC859] hover:to-[#AAD468] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[#0A1A1A]"></div>
-                      <span>Sending...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Send size={20} />
-                      <span>Send Message</span>
-                    </>
-                  )}
-                </button>
-
-                {/* Status Messages */}
-                {submitStatus === "success" && (
-                  <div className="flex items-center space-x-2 text-green-400 bg-green-400/10 p-4 rounded-xl">
-                    <CheckCircle size={20} />
-                    <span>
-                      Message sent successfully! We'll get back to you soon.
-                    </span>
-                  </div>
-                )}
-
-                {submitStatus === "error" && (
-                  <div className="flex items-center space-x-2 text-red-400 bg-red-400/10 p-4 rounded-xl">
-                    <AlertCircle size={20} />
-                    <span>Something went wrong. Please try again.</span>
-                  </div>
-                )}
+              {/* Name & Email */}
+              <div className="grid md:grid-cols-2 gap-4">
+                <InputWithIcon
+                  icon={<User />}
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  placeholder="Name"
+                  required
+                />
+                <InputWithIcon
+                  icon={<Mail />}
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="Email"
+                  required
+                />
               </div>
-            </div>
+
+              {/* Phone */}
+              <InputWithIcon
+                icon={<Phone />}
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                placeholder="Phone Number"
+                optional
+              />
+
+              {/* Company */}
+              <InputWithIcon
+                icon={<Building2 />}
+                name="company"
+                value={formData.company}
+                onChange={handleInputChange}
+                placeholder="Company Name"
+                optional
+              />
+
+              {/* Subject Dropdown */}
+              <Dropdown
+                icon={<MessageSquare />}
+                label="Select Subject"
+                isOpen={isSubjectOpen}
+                toggle={() => setIsSubjectOpen(!isSubjectOpen)}
+                value={formData.subject}
+                options={subjectOptions}
+                onSelect={handleSubjectSelect}
+              />
+
+              {/* Message */}
+              <TextareaWithIcon
+                icon={<MessageSquare />}
+                name="message"
+                value={formData.message}
+                onChange={handleInputChange}
+                placeholder="Your Message"
+                required
+              />
+
+              {/* Checkbox */}
+              <div className="flex items-center space-x-3">
+                <input
+                  type="checkbox"
+                  name="isNotRobot"
+                  id="isNotRobot"
+                  checked={formData.isNotRobot}
+                  onChange={handleInputChange}
+                  className="w-5 h-5"
+                />
+                <label htmlFor="isNotRobot" className="text-white/80 text-sm">
+                  I'm not a robot{" "}
+                  <span className="text-white/40">(Optional)</span>
+                </label>
+              </div>
+
+              {/* Submit */}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-gradient-to-r from-[#AAD468] to-[#9BC859] text-[#0A1A1A] py-4 px-6 rounded-xl font-semibold text-lg flex items-center justify-center space-x-2 hover:from-[#9BC859] hover:to-[#AAD468] transition-all duration-300 disabled:opacity-50"
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[#0A1A1A]" />
+                    <span>Sending...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send size={20} />
+                    <span>Send Message</span>
+                  </>
+                )}
+              </button>
+
+              {/* Status */}
+              {submitStatus === "success" && (
+                <StatusMessage
+                  success
+                  message="Message sent successfully! We'll get back to you soon."
+                />
+              )}
+              {submitStatus === "error" && (
+                <StatusMessage
+                  error
+                  message="Something went wrong. Please try again."
+                />
+              )}
+            </form>
           </div>
 
-          {/* Contact Information */}
-          <div ref={contactInfoRef} className="space-y-8">
-            <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10">
-              <h2 className="text-2xl font-bold text-white mb-8">
-                Get in touch
-              </h2>
-
-              <div className="space-y-6">
-                {contactInfo.map((info, index) => (
-                  <div
-                    key={index}
-                    className="flex items-start space-x-4 p-4 rounded-xl hover:bg-white/5 transition-colors duration-300"
-                  >
-                    <div className="flex-shrink-0 w-12 h-12 bg-[#AAD468] rounded-full flex items-center justify-center text-[#0A1A1A]">
-                      {info.icon}
-                    </div>
-                    <div>
-                      <h3 className="text-[#AAD468] font-semibold mb-1">
-                        {info.title}
-                      </h3>
-                      <p className="text-white text-lg mb-1">{info.content}</p>
-                      <p className="text-white/60 text-sm">{info.subContent}</p>
-                    </div>
+          {/* Contact Info */}
+          <div ref={contactInfoRef} className="space-y-8 min-w-0">
+            <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 space-y-6">
+              <h2 className="text-2xl font-bold text-white">Get in touch</h2>
+              {contactInfo.map((info, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-start space-x-4 rounded-xl hover:bg-white/5 transition"
+                >
+                  <div className="w-12 h-12 flex-shrink-0 bg-[#AAD468] rounded-full flex items-center justify-center text-[#0A1A1A]">
+                    {info.icon}
                   </div>
-                ))}
-              </div>
+                  <div>
+                    <h3 className="text-[#AAD468] font-semibold">
+                      {info.title}
+                    </h3>
+                    <p className="text-white text-md sm:text-lg">
+                      {info.content}
+                    </p>
+                    <p className="text-white/60 text-sm">{info.subContent}</p>
+                  </div>
+                </div>
+              ))}
             </div>
 
-            {/* Social Links */}
             <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10">
               <h3 className="text-xl font-bold text-white mb-6">Follow us</h3>
               <div className="flex space-x-4">
-                {socialLinks.map((social, index) => (
+                {socialLinks.map((link, i) => (
                   <a
-                    key={index}
-                    href={social.url}
+                    key={i}
+                    href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-[#AAD468] hover:bg-[#AAD468] hover:text-[#0A1A1A] transition-all duration-300 transform hover:scale-110"
-                    aria-label={social.label}
+                    aria-label={link.label}
+                    className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-[#AAD468] hover:bg-[#AAD468] hover:text-[#0A1A1A] transform hover:scale-110 transition"
                   >
-                    {social.icon}
+                    {link.icon}
                   </a>
                 ))}
               </div>
@@ -477,5 +390,82 @@ const ContactUs = () => {
     </section>
   );
 };
+
+const InputWithIcon = ({ icon, optional, ...props }) => (
+  <div className="relative">
+    <div className="absolute left-4 top-5 text-[#AAD468] z-10">{icon}</div>
+    <input
+      {...props}
+      className="w-full pl-12 pr-20 py-4 bg-white/5 border border-white/20 rounded-xl text-white placeholder-white/60 focus:border-[#AAD468] focus:outline-none focus:ring-2 focus:ring-[#AAD468]/20 transition-all duration-300"
+    />
+    {optional && (
+      <span className="absolute right-4 top-5 text-white/40 text-sm">
+        (Optional)
+      </span>
+    )}
+  </div>
+);
+
+const TextareaWithIcon = ({ icon, ...props }) => (
+  <div className="relative">
+    <div className="absolute left-4 top-5 text-[#AAD468] z-10">{icon}</div>
+    <textarea
+      {...props}
+      className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/20 rounded-xl text-white placeholder-white/60 focus:border-[#AAD468] focus:outline-none focus:ring-2 focus:ring-[#AAD468]/20 resize-none"
+    />
+  </div>
+);
+
+const Dropdown = ({
+  icon,
+  label,
+  isOpen,
+  toggle,
+  value,
+  options,
+  onSelect,
+}) => (
+  <div className="relative">
+    <div className="absolute left-4 top-5 text-[#AAD468] z-10">{icon}</div>
+    <button
+      type="button"
+      onClick={toggle}
+      className="w-full pl-12 pr-12 py-4 bg-white/5 border border-white/20 rounded-xl text-white text-left focus:ring-2 focus:ring-[#AAD468]/20"
+    >
+      {value || label}
+    </button>
+    <ChevronDown
+      className={`absolute right-4 top-5 text-white/60 transition ${
+        isOpen ? "rotate-180" : ""
+      }`}
+      size={20}
+    />
+    {isOpen && (
+      <div className="absolute top-full left-0 right-0 mt-2 bg-[#1A2A2A] border border-white/20 rounded-xl z-20 overflow-hidden">
+        {options.map((option, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={() => onSelect(option)}
+            className="w-full px-4 py-3 text-left text-white hover:bg-[#AAD468] hover:text-[#0A1A1A]"
+          >
+            {option}
+          </button>
+        ))}
+      </div>
+    )}
+  </div>
+);
+
+const StatusMessage = ({ success, error, message }) => (
+  <div
+    className={`flex items-center space-x-2 p-4 rounded-xl ${
+      success ? "bg-green-400/10 text-green-400" : "bg-red-400/10 text-red-400"
+    }`}
+  >
+    {success ? <CheckCircle size={20} /> : <AlertCircle size={20} />}
+    <span>{message}</span>
+  </div>
+);
 
 export default ContactUs;

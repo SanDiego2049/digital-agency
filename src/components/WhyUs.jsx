@@ -137,12 +137,16 @@ const WhyUs = () => {
             <div ref={titleRef} className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold text-[#001515] mb-4">
                 Why{" "}
-                <span className="bg-[#AAD468] text-[#F7FBF0] px-3 py-1 rounded-lg">
+                <span
+                  className="bg-[#AAD468] text-[#F7FBF0] px-3 py-1 rounded-lg whitespace-nowrap
+                  text-3xl md:text-4xl"
+                >
                   Choose Kudos
                 </span>{" "}
                 Digitals?
               </h2>
-              <p className="text-[#001515] text-lg max-w-2xl mx-auto">
+
+              <p className="text-[#001515] text-md md:text-xl  max-w-2xl mx-auto">
                 Partner with us for innovation, expertise, and a commitment to
                 your success.
               </p>

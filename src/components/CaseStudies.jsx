@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
+
 import image1 from "../assets/AUGUST WK 4 - Artboard 4 2.jpg";
 import image2 from "../assets/GALLIVANTER RELAUNCH - Artboard 2 1.png";
 import image3 from "../assets/ACCRA (1) 1.png";
@@ -32,7 +33,7 @@ const CaseStudies = () => {
           duration: 1,
           ease: "power2.out",
           scrollTrigger: {
-            trigger: titleRef.current,
+            trigger: sectionRef.current,
             start: "top 80%",
             end: "bottom 20%",
             toggleActions: "play none none reverse",
@@ -40,40 +41,33 @@ const CaseStudies = () => {
         }
       );
 
-      // Animate cards
-      cardsRef.current.forEach((card, index) => {
-        if (card) {
-          gsap.fromTo(
-            card,
-            {
-              opacity: 0,
-              y: 60,
-              scale: 0.9,
-            },
-            {
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              duration: 0.8,
-              ease: "power2.out",
-              delay: index * 0.15,
-              scrollTrigger: {
-                trigger: card,
-                start: "top 85%",
-                end: "bottom 15%",
-                toggleActions: "play none none reverse",
-              },
-            }
-          );
+      gsap.fromTo(
+        cardsRef.current,
+        {
+          opacity: 0,
+          y: 60,
+          scale: 0.9,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+            end: "bottom 20%",
+            toggleActions: "play none none reverse",
+          },
         }
-      });
+      );
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   useEffect(() => {
-    // Add mouse wheel horizontal scrolling
     const scrollContainer = scrollContainerRef.current;
     if (scrollContainer) {
       const handleWheel = (e) => {
@@ -93,8 +87,6 @@ const CaseStudies = () => {
 
       scrollContainer.addEventListener("wheel", handleWheel);
       scrollContainer.addEventListener("scroll", handleScroll);
-
-      // Initial scroll progress calculation
       handleScroll();
 
       return () => {
@@ -172,7 +164,7 @@ const CaseStudies = () => {
               className="group flex-shrink-0 transform transition-all duration-300"
             >
               <img
-                className="w-80 h-96 object-cover rounded-2xl shadow-xl hover:shadow-2xl transition-shadow duration-300"
+                className="sm:w-80 sm:h-96 w-60 h-76 object-cover rounded-2xl shadow-xl hover:shadow-2xl transition-shadow duration-300"
                 src={study.image}
                 alt={study.title}
               />

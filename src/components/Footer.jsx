@@ -77,7 +77,7 @@ const Footer = () => {
           ))}
 
           {/* Newsletter Subscription */}
-          <div>
+          <div className="lg:col-span-1 sm:col-span-2 col-span-full">
             <h3 className="text-lg text-[#BBDD86] font-semibold mb-4">
               Subscribe for our updates
             </h3>
@@ -85,16 +85,22 @@ const Footer = () => {
               Join our newsletter to stay informed about our latest features and
               updates.
             </p>
-            <div className="flex mb-4">
+            <form
+              onSubmit={(e) => e.preventDefault()}
+              className="flex flex-col sm:flex-row mb-4"
+            >
               <input
                 type="email"
                 placeholder="Your Email Here"
-                className="flex-1 px-4 py-2 bg-[#002424] border border-[#BBDD86] rounded-s text-white placeholder-gray-400 focus:outline-none focus:border-gray-400"
+                className="w-full px-4 py-2 bg-[#002424] border border-[#BBDD86] rounded rounded-b-none md:rounded-bl md:rounded-e-none text-white placeholder-gray-400 focus:outline-none focus:border-gray-400"
               />
-              <button className="px-6 py-2 bg-[#BBDD86] text-gray-900 rounded-e font-medium hover:bg-lime-300 transition-colors">
+              <button
+                type="submit"
+                className="px-6 py-2 bg-[#BBDD86] text-gray-900 rounded rounded-t-none md:rounded-tr md:rounded-s-none font-medium hover:bg-lime-300 transition-colors"
+              >
                 Send
               </button>
-            </div>
+            </form>
             <p className="text-gray-400 text-xs">
               By subscribing, you agree to our{" "}
               <a href="#" className="text-gray-300 hover:text-white">
@@ -107,9 +113,9 @@ const Footer = () => {
 
         {/* Bottom Section */}
         <div className="mt-12 pt-8 border-t border-gray-700">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex flex-col lg:flex-row justify-between items-center gap-4">
             {/* Logo and Social Icons */}
-            <div className="flex items-center gap-6">
+            <div className="flex items-center justify-between w-full sm:w-auto gap-6">
               <img src={icon2} alt="Kudos" className="h-6" />
               <div className="flex gap-4">
                 {socialIcons.map(({ Icon, href }, index) => (
@@ -125,8 +131,8 @@ const Footer = () => {
             </div>
 
             {/* Bottom Links and Copyright */}
-            <div className="flex flex-col md:flex-row items-center gap-4 text-sm text-gray-400">
-              <div className="flex gap-4">
+            <div className="flex flex-col md:flex-row items-start sm:items-center gap-4 text-sm text-gray-400 w-full sm:w-auto">
+              <div className="flex flex-col sm:flex-row gap-4">
                 {bottomLinks.map(({ text, href }, index) => (
                   <a
                     key={index}
